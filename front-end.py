@@ -6,7 +6,7 @@ import images_link
 #
 
 #
-# background links
+# background links (no image used as backgroung)
 # '''
 # link 1 = https://www.wallpaperflare.com/black-and-gray-abstract-digital-wallpaper-digital-art-low-poly-wallpaper-sksm
 #
@@ -43,28 +43,33 @@ st.title("blockchain transaction database")
 
 st.header("Blockchain ")
 
-
+# assigned Trilio as bc and storing data in session state
 if 'bc' not in st.session_state:
     st.session_state.bc = Trilio()
 
+# storing the data of wallet in session state
+if 'wallet' not in st.session_state:
+    st.session_state.wallet = []
+
+if "pub_keys" not in st.session_state:
+    st.session_state.pub_keys = []
 
 # block height
-height_button = st.button("check height")
-if height_button:
-    height = len(st.session_state.wallet)
-    st.write(f" the block height is {height}")
-
+height = len(st.session_state.wallet)
+st.markdown(f"# the chain height is {height}")
+if st.button("refresh height size"):
+    st.success("refreshed")
 st.markdown("***")
 st.markdown("# create your block first")
 
-if 'wallet' not in st.session_state:
-    st.session_state.wallet = []
+
 
 createBtn = st.button('Create wallet')
 if createBtn:
     wallet = st.session_state.bc.Wallet.create_wallet()
     private_KEY = wallet['address']["pve"]
     public_KEY = wallet['address']['pbc']
+    st.session_state.pub_keys.append(public_KEY)
     st.success("Wallet has been created")
     st.warning(f"your private key :  {private_KEY}")
     st.warning(f"your public key :  {public_KEY}")
@@ -78,27 +83,28 @@ if st.button("show al the blocks"):
 st.markdown("***")
 st.markdown("# DO TRANSACTION")
 # create transaction
-to = st.text_input("to:"),
-froms = st.text_input("enter your pve-key"),
+reciver_public_key = st.text_input("reciver_public_key:"),
+your_private_key = st.text_input("enter your pve-key"),
 amount = st.text_input("enter your amount")
 
 if st.button("to make transaction"):
-    transaction = st.session_state.bc.create_transaction(
-        datetime.now(),
-        data={
-            "type": "token-transfer",
-            "data": {
-                "to": to,
-                "from": froms,
-                "amount": amount,
+    if str(your_private_key) in st.session_state.pub_keys:
+        transaction = st.session_state.bc.create_transaction(
+            datetime.now(),
+            data={
+                "type": "token-transfer",
+                "data": {
+                    "to": reciver_public_key,
+                    "from": your_private_key,
+                    "amount": amount,
+                }
             }
-        }
-    )
+        )
     st.success("the transaction has succeed")
 
+# check balance
 st.markdown("***")
 st.markdown("# check your balance")
-# check balance
 pve = st.text_input("your private key")
 pub = st.text_input("your public key")
 if st.button("check your balance"):
@@ -109,11 +115,13 @@ if st.button("check your balance"):
 st.markdown("***")
 st.markdown("crediting a wallet")
 st.markdown("- enter the public key for the account where you want to deposit credit")
+
 cred_pub = st.text_input("public key here")
 cred_amount = st.text_input("amount of money u want to deposit")
 if st.button("make your deposit"):
-    credit = st.session_state.bc.Wallet.create_wallet(public_key = str(cred_pub), amount = cred_amount)
+    credit = st.session_state.bc.Wallet.credit_wallet(public_key = str(cred_pub), amount = cred_amount)
     st.success(credit)
+
 
 # these are the balance details
 st.markdown("***")
@@ -140,14 +148,20 @@ if st.button("shows that there are no collections"):
 st.markdown("***")
 st.markdown("# check chain validity")
 # st.button(bc.trilio.chain)
-status = st.session_state.bc.trilio.chain
+valid = st.session_state.bc.validate_chain()
+# chain = st.session_state.bc.chain
+
 if st.button("is chain valid"):
-    if status:
-        st.header("the chain is valid")
-        st.success("chain is valid")
-    if not status:
-        st.header("the chain is not valid")
-        st.error("something went wrong")
+    if  height == 0:
+        st.error("there is no blocks")
+    else:
+        if valid == True:
+            st.error("chain is not valid")
+        else:
+            st.success("chain is valid")
+
+
+# checking session state
 
 # "st.session_state object:" ,st.session_state
 #

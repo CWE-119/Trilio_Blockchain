@@ -69,8 +69,8 @@ class Wallet:
             return "Failed"
 
         for address in self.addresses:
-            if address["address"]["pbc"] == public_key:
-                address["info"]["balance"] += amount
+            if address["address"]["pbc"] == str(public_key):
+                address["info"]["balance"] += float(amount)
                 return address["info"]["balance"]
         return "Failed"
 

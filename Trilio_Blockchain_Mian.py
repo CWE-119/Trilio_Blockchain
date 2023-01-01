@@ -3,7 +3,12 @@ from trilio import *
 
 # Creates a blockchain object
 blockchain = Trilio()
+# from trilio import Trilio
+from trilio import *
+
+# Creates a blockchain object
 print(blockchain)
+
 
 print("This is the validity Status ------------------------------------->")
 valid = blockchain.validate_chain()  # True = Valid, False = Invalid
@@ -46,7 +51,7 @@ print(blockchain.Wallet.get_collections(private_key=address["pve"],
 
 # Crediting a wallet:
 # mention the public key and the amount that you want to credited
-blockchain.Wallet.credit_wallet(public_key=address["pbc"], amount=10)
+blockchain.Wallet.credit_wallet(public_key=address["pbc"], amount=100)
 print("This is the current balance after crediting the wallet --------------------------------------->")
 print(blockchain.Wallet.get_balance(private_key=address["pve"], public_key=address["pbc"]))  # Get a wallet's balance
 
@@ -76,6 +81,7 @@ blockchain.create_transaction(
 # You will see that it decreased
 print("This is the balance of the first wallet")
 print(blockchain.Wallet.get_balance(private_key=address["pve"], public_key=address["pbc"]))  # Get a wallet's balance
-chain = blockchain.trilio.chain
-for i in chain:
-    print(i)
+
+# for i in wallet.values():
+#     print(i)
+
