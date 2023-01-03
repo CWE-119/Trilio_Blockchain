@@ -39,9 +39,7 @@ lotte_ethereum = load_lottierurl("https://assets6.lottiefiles.com/packages/lf20_
 # header section
 st.subheader("This is a blockchain app build with streamlit")
 st_lottie(lotte_ethereum, height=500, key="ethereum")
-st.title("blockchain transaction database")
-
-st.header("Blockchain ")
+st.title("Simple Blockchain Project")
 
 # assigned Trilio as bc and storing data in session state
 if 'bc' not in st.session_state:
@@ -82,25 +80,29 @@ if st.button("show al the blocks"):
 
 st.markdown("***")
 st.markdown("# DO TRANSACTION")
+
 # create transaction
 reciver_public_key = st.text_input("reciver_public_key:"),
 your_private_key = st.text_input("enter your pve-key"),
 amount = st.text_input("enter your amount")
 
+# todo fix the 'to' and 'from' in the transaction , check Trilio_Blockchain_main,pu line 68 to 78
+
 if st.button("to make transaction"):
-    if str(your_private_key) in st.session_state.pub_keys:
-        transaction = st.session_state.bc.create_transaction(
-            datetime.now(),
-            data={
-                "type": "token-transfer",
-                "data": {
-                    "to": reciver_public_key,
-                    "from": your_private_key,
-                    "amount": amount,
-                }
+    transaction = st.session_state.bc.create_transaction(
+        datetime.now(),
+        data={
+            "type": "token-transfer",
+            "data": {
+                "to": reciver_public_key,
+                "from": your_private_key,
+                "amount": float(amount),
             }
-        )
+        }
+    )
     st.success("the transaction has succeed")
+    st.session_state.wallet
+
 
 # check balance
 st.markdown("***")

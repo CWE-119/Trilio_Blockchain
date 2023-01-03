@@ -11,7 +11,7 @@ class Trade:
         self.state = 0 # 0 = pending # 1 = accepted # 2 = decline
         self.created_at = timestamp
         tradestorage.trades.append(self)
-    
+
     def get_id(self):
         return self.id
 
@@ -126,7 +126,7 @@ class Block:
         self.transactions = transactions
         self.previous_hash = previous_hash
         self.hash = self.get_hash()
-        self.status = 0 # 0 = pending, 1 = completed 
+        self.status = 0 # 0 = pending, 1 = completed
         self.complete()
     
     def complete(self):

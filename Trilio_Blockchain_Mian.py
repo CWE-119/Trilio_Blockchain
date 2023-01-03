@@ -82,6 +82,7 @@ blockchain.create_transaction(
 print("This is the balance of the first wallet")
 print(blockchain.Wallet.get_balance(private_key=address["pve"], public_key=address["pbc"]))  # Get a wallet's balance
 
+print(type(address_02["pbc"]))
 # for i in wallet.values():
 #     print(i)
 
