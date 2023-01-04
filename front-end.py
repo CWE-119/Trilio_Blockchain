@@ -121,8 +121,11 @@ st.markdown("- enter the public key for the account where you want to deposit cr
 cred_pub = st.text_input("public key here")
 cred_amount = st.text_input("amount of money u want to deposit")
 if st.button("make your deposit"):
-    credit = st.session_state.bc.Wallet.credit_wallet(public_key = str(cred_pub), amount = cred_amount)
-    st.success(credit)
+    if cred_pub in st.session_state.pub_keys:
+        credit = st.session_state.bc.Wallet.credit_wallet(public_key = str(cred_pub), amount = cred_amount)
+        st.success(credit)
+    else:
+        st.error("No public key matches with this public key")
 
 
 # these are the balance details
