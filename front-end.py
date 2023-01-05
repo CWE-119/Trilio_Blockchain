@@ -1,7 +1,7 @@
 import streamlit as st
 from trilio import *
 import requests
-from streamlit_lottie import st_lottie
+# from streamlit_lottie import st_lottie
 import images_link
 #
 
@@ -26,19 +26,19 @@ import images_link
 #
 #
 # ethereum animation
-def load_lottierurl(url):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-#
+# def load_lottierurl(url):
+#     r = requests.get(url)
+#     if r.status_code != 200:
+#         return None
+#     return r.json()
+# #
 #
 # #  ----load assets----
-lotte_ethereum = load_lottierurl("https://assets6.lottiefiles.com/packages/lf20_p6ekkqz9.json")
+# lotte_ethereum = load_lottierurl("https://assets6.lottiefiles.com/packages/lf20_p6ekkqz9.json")
 #
 # header section
 st.subheader("This is a blockchain app build with streamlit")
-st_lottie(lotte_ethereum, height=500, key="ethereum")
+# st_lottie(lotte_ethereum, height=500, key="ethereum")
 st.title("Simple Blockchain Project")
 
 # assigned Trilio as bc and storing data in session state
